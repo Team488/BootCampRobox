@@ -16,8 +16,11 @@ public class DriveSubsystem extends BaseSubsystem {
 
     public final XCANTalon leftMaster;
     public final XCANTalon leftFollower;
+    public final XCANTalon leftFollower2;
+
     public final XCANTalon rightMaster;
     public final XCANTalon rightFollower;
+    public final XCANTalon rightFollower2;
 
     @Inject
     public DriveSubsystem(CommonLibFactory factory, XPropertyManager propManager) {
@@ -25,13 +28,19 @@ public class DriveSubsystem extends BaseSubsystem {
 
         this.leftMaster = factory.createCANTalon(21);
         this.leftFollower = factory.createCANTalon(22);
+        this.leftFollower2 = factory.createCANTalon(23);
+
         this.rightMaster = factory.createCANTalon(32);
         this.rightFollower = factory.createCANTalon(33);
+        this.rightFollower2 = factory.createCANTalon(34);
 
         XCANTalon.configureMotorTeam("LeftDrive", "LeftMaster", leftMaster, leftFollower, 
-        true, true, false);
-        XCANTalon.configureMotorTeam("RightDrive", "RightMaster", rightMaster, rightFollower, 
         false, false, false);
+        XCANTalon.configureMotorTeam("RightDrive", "RightMaster", rightMaster, rightFollower, 
+        true, true, false);
+
+        leftFollower2.configureAsFollowerMotor(leftMaster, false);
+        rightFollower2.configureAsFollowerMotor(rightMaster, true);
     }
 
     public void tankDrive(double leftPower, double rightPower) {
